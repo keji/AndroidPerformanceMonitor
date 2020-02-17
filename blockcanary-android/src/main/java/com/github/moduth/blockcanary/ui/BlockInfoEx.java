@@ -69,7 +69,7 @@ final class BlockInfoEx extends BlockInfo {
                 } else if (line.startsWith(KEY_CPU_RATE)) {
                     String[] split = line.split(KV);
                     if (split.length > 1) {
-                        StringBuilder cpuRateSb = new StringBuilder(split[1]);
+                      /*  StringBuilder cpuRateSb = new StringBuilder(split[1]);
                         cpuRateSb.append(line.split(KV)[1]).append(SEPARATOR);
                         line = reader.readLine();
 
@@ -81,8 +81,8 @@ final class BlockInfoEx extends BlockInfo {
                                 break;
                             }
                             line = reader.readLine();
-                        }
-                        blockInfo.cpuRateInfo = cpuRateSb.toString();
+                        }*/
+                        blockInfo.cpuRateInfo = line.split(KV)[1];
                     }
                 } else if (line.startsWith(KEY_STACK)) {
                     StringBuilder stackSb = new StringBuilder(line.split(KV)[1]);

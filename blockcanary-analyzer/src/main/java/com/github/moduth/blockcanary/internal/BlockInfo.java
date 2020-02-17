@@ -111,7 +111,8 @@ public class BlockInfo {
                     .getContext()
                     .provideContext()
                     .getSystemService(Context.TELEPHONY_SERVICE);
-            sImei = telephonyManager.getDeviceId();
+            //sImei = telephonyManager.getDeviceId();
+            sImei = EMPTY_IMEI;
         } catch (Exception exception) {
             Log.e(TAG, NEW_INSTANCE_METHOD, exception);
             sImei = EMPTY_IMEI;

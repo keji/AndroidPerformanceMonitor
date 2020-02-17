@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
-apply from: 'gradle-mvn-push.gradle'
+apply plugin: 'com.github.dcendents.android-maven'
 
+group='com.github.keji'
 android {
     compileSdkVersion LIBRARY_COMPILE_SDK_VERSION
     buildToolsVersion LIBRARY_BUILD_TOOLS_VERSION
@@ -10,6 +11,9 @@ android {
         targetSdkVersion LIBRARY_TARGET_SDK_VERSION
         versionCode 1
         versionName "1.0"
+    }
+    lintOptions {
+        abortOnError false
     }
     buildTypes {
         release {

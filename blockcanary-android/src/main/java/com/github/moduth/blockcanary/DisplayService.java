@@ -17,10 +17,12 @@ package com.github.moduth.blockcanary;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import com.github.moduth.blockcanary.internal.BlockInfo;
@@ -49,13 +51,30 @@ final class DisplayService implements BlockInterceptor {
         show(context, contentTitle, contentText, pendingIntent);
     }
 
-    @TargetApi(HONEYCOMB)
     private void show(Context context, String contentTitle, String contentText, PendingIntent pendingIntent) {
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
-
+        final int NOTIFY_ID = 0;
+        final String channelId = "defaultChannelId";
         Notification notification;
-        if (SDK_INT < HONEYCOMB) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(channelId, contentTitle, importance);
+            //mChannel.enableVibration(true);
+            //mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            notificationManager.createNotificationChannel(mChannel);
+
+            Notification.Builder builder = new Notification.Builder(context, channelId);
+            builder.setContentTitle(contentTitle)                            // required
+                    .setSmallIcon(R.drawable.block_canary_notification)   // required
+                    .setContentText(contentText) // required
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent)
+                    .setDefaults(Notification.DEFAULT_SOUND);
+            notification = builder.build();
+        } else if (SDK_INT < HONEYCOMB) {
             notification = new Notification();
             notification.icon = R.drawable.block_canary_notification;
             notification.when = System.currentTimeMillis();
@@ -83,6 +102,6 @@ final class DisplayService implements BlockInterceptor {
                 notification = builder.build();
             }
         }
-        notificationManager.notify(0xDEAFBEEF, notification);
+        notificationManager.notify(NOTIFY_ID, notification);
     }
 }

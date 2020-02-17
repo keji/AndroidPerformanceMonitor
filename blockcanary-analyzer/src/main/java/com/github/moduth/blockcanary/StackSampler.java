@@ -15,6 +15,8 @@
  */
 package com.github.moduth.blockcanary;
 
+import android.util.Log;
+
 import com.github.moduth.blockcanary.internal.BlockInfo;
 
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ class StackSampler extends AbstractSampler {
         ArrayList<String> result = new ArrayList<>();
         synchronized (sStackMap) {
             for (Long entryTime : sStackMap.keySet()) {
+                Log.d("StackSampler", "startTime "+ startTime +" endTime "+endTime+" entryTime "+entryTime);
                 if (startTime < entryTime && entryTime < endTime) {
                     result.add(BlockInfo.TIME_FORMATTER.format(entryTime)
                             + BlockInfo.SEPARATOR
