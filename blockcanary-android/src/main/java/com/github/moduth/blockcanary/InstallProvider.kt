@@ -5,9 +5,7 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
-import com.github.moduth.blockcanary.util.ReleaseTree
-import timber.log.Timber
-
+import android.util.Log
 class InstallProvider: ContentProvider() {
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
         return null
@@ -19,9 +17,8 @@ class InstallProvider: ContentProvider() {
 
     override fun onCreate(): Boolean {
         val application = context!!.applicationContext as Application
-        Timber.plant(Timber.DebugTree())
         BlockCanary.install(application, AppContext()).start()
-        Timber.d("onCreate install block canary")
+        Log.d("InstallProvider", "onCreate install block canary")
         return true
     }
 

@@ -55,8 +55,6 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import timber.log.Timber;
-
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 import static android.text.format.DateUtils.FORMAT_SHOW_DATE;
 import static android.text.format.DateUtils.FORMAT_SHOW_TIME;
@@ -402,7 +400,7 @@ public class DisplayActivity extends Activity {
             File[] files = BlockCanaryInternals.getLogFiles();
             if (files != null) {
                 for (File blockFile : files) {
-                    Timber.d("blockInfoFile: %s", blockFile.getAbsolutePath());
+                    Log.d(TAG, String.format("blockInfoFile: %s", blockFile.getAbsolutePath()));
                     try {
                         BlockInfoEx blockInfo = BlockInfoEx.newInstance(blockFile);
                         if (!BlockCanaryUtils.isBlockInfoValid(blockInfo)) {

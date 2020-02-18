@@ -17,10 +17,11 @@ package com.github.moduth.blockcanary;
 
 import android.os.Debug;
 import android.os.SystemClock;
+import android.util.Log;
 import android.util.Printer;
 
 class LooperMonitor implements Printer {
-
+    private static final String TAG = "LooperMonitor";
     private static final int DEFAULT_BLOCK_THRESHOLD_MILLIS = 3000;
 
     private long mBlockThresholdMillis = DEFAULT_BLOCK_THRESHOLD_MILLIS;
@@ -55,11 +56,14 @@ class LooperMonitor implements Printer {
             mStartTimestamp = System.currentTimeMillis();
             mStartThreadTimestamp = SystemClock.currentThreadTimeMillis();
             mPrintingStarted = true;
+            Log.d(TAG, "start invoke main method");
             startDump();
         } else {
             final long endTime = System.currentTimeMillis();
             mPrintingStarted = false;
+            Log.d(TAG, "end invoke main method");
             if (isBlock(endTime)) {
+                Log.d(TAG, "is long time invoke notify block event");
                 notifyBlockEvent(endTime);
             }
             stopDump();
